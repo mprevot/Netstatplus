@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Netstat
+namespace Netstatplus
 {
 	class Program
-    {
-        static void Main(string[] args)
-        {
+	{
+		static void Main(string[] args)
+		{
 			var proc = new Process
 			{
 				StartInfo = new ProcessStartInfo
@@ -21,27 +21,27 @@ namespace Netstat
 				}
 			};
 			proc.Start();
-	        var ConList = new List<NetstatEntry>();
-	        while (!proc.StandardOutput.EndOfStream)
-	        {
-		        string line = proc.StandardOutput.ReadLine();
-				if(line is null || !(line.Contains("TCP") | line.Contains("UDP")))
+			var ConList = new List<NetstatEntry>();
+			while (!proc.StandardOutput.EndOfStream)
+			{
+				string line = proc.StandardOutput.ReadLine();
+				if (line is null || !(line.Contains("TCP") | line.Contains("UDP")))
 					continue;
-		        ConList.Add(new NetstatEntry(line));
-	        }
+				ConList.Add(new NetstatEntry(line));
+			}
 
-	        var lastNSE = ConList.First();
+			var lastNSE = ConList.First();
 			var pads = ConList.GetConnectionPads();
 
-	        foreach (var con in ConList.OrderBy(o => o.PID)
+			foreach (var con in ConList.OrderBy(o => o.PID)
 				.ThenBy(o => o.LocalPort)
 				.ThenBy(o => o.ForeignPort))
 			{
 				var output = (con.SharePID(lastNSE) ? "" : "\n")
-				             + con.GetNameAndState(lastNSE, pads);
+							 + con.GetNameAndState(lastNSE, pads);
 				Console.WriteLine(output);
 				lastNSE = con;
 			}
 		}
-    }
+	}
 }

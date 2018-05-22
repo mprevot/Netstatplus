@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Netstat
+namespace Netstatplus
 {
 	public enum State
 	{
