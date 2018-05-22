@@ -17,12 +17,20 @@ When your web browser is started, you already can see all the many connections i
 You can see all the system processes being listening to connections, and take step to harden the security of your system.
 
 ## What it will do
-- Process static and dynamic analysis
-- Connection behavior analysis
-- Packet analysis
+- process static and dynamic analysis
+- connection behavior analysis
+- packet analysis
 
 and in particular:
 - fine grained analysis and chosen lock up of programs and processes 
 - prevent ransomware attacks
 - prevent rootkits installation or actions (eg., for security analysis)
 - prevent or analyze meltdown, spectre, and hardware exploits
+
+## How to use Netstatplus
+
+Build the project, netstat.dll is produced.
+
+Start the program with `dotnet netstat.dll`.
+
+Feel free to create an alias and put it somewhere in your `$PATH`.
