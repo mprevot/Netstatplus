@@ -28,9 +28,9 @@ and in particular:
 - prevent or analyze meltdown, spectre, and hardware exploits
 
 ## How to use Netstatplus
-
+### Raw program
 Build the project, netstat.dll is produced.
-
 Start the program with `dotnet netstat.dll`.
-
 Feel free to create an alias and put it somewhere in your `$PATH`.
+### Self-contained publication
+Use `dotnet publish --self-contained -r "win10-x64"` to create a self sufficient package (here a Windows 10 x64 version; pick another one here: https://docs.microsoft.com/en-us/dotnet/core/rid-catalog).
