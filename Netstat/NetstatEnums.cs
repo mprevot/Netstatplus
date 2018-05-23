@@ -11,6 +11,7 @@ namespace Netstatplus
 		Established,
 		NA
 	}
+
 	public enum Protocol
 	{
 		TCP,
