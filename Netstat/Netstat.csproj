@@ -9,4 +9,17 @@
     <RootNamespace>Netstatplus</RootNamespace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\Debug\</OutputPath>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\Debug\</OutputPath>
+  </PropertyGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="move ..\Debug\netcoreapp2.1\* ..\Debug\&#xD;&#xA;rmdir ..\Debug\netcoreapp2.1" />
+  </Target>
+
 </Project>
