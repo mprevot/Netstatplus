@@ -34,3 +34,6 @@ Start the program with `dotnet netstat.dll`.
 Feel free to create an alias and put it somewhere in your `$PATH`.
 ### Self-contained publication
 Use `dotnet publish --self-contained -r "win10-x64"` to create a self sufficient package (here a Windows 10 x64 version; pick another one here: https://docs.microsoft.com/en-us/dotnet/core/rid-catalog).
+
+## Suggestions and contact
+Provide suggestions as issues. For other topics, just write to me at mprevot@freebsd.org
