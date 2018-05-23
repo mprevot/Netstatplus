@@ -7,6 +7,7 @@
     <SignAssembly>false</SignAssembly>
     <AssemblyName>Netstatplus</AssemblyName>
     <RootNamespace>Netstatplus</RootNamespace>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -14,12 +15,21 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutputPath>..\Debug\</OutputPath>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\Release\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutputPath>..\Release</OutputPath>
   </PropertyGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="move ..\Debug\netcoreapp2.1\* ..\Debug\&#xD;&#xA;rmdir ..\Debug\netcoreapp2.1" />
+    <Exec Command="move ..\Release\netcoreapp2.1\* ..\Release\&#xD;&#xA;rmdir ..\Release\netcoreapp2.1" />
   </Target>
 
 </Project>
