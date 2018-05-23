@@ -12,8 +12,7 @@ namespace Netstatplus
 	    private string _ip;
 	    private Process _whoisProcess;
 	    private Task _getOrgTask;
-
-	    public string IP
+		public string IP
 	    {
 		    get => _ip;
 		    set
@@ -33,8 +32,7 @@ namespace Netstatplus
 
 			}
 	    }
-	    public string OrgName { get; set; }
-		public string Organization { get; set; }
+		public List<string> Organization { get; set; } = new List<string>();
 	    public string Country { get; set; }
 		public string Domain { get; set; }
 
@@ -60,16 +58,30 @@ namespace Netstatplus
 			{
 				_whoisProcess.Start();
 				var whoisResult = new List<string>();
+				bool gotDescr = false;
+				bool gotCountry = false;
+				var headers = new List<string> { "organization", "orgname", "org-name", "descr" };
 				while (!_whoisProcess.StandardOutput.EndOfStream)
 				{
-					string line = _whoisProcess.StandardOutput.ReadLine();
+					var line = _whoisProcess.StandardOutput.ReadLine();
 					if (line is null) continue;
-					if (line.StartsWith("Organization"))
-						Organization = line.Split(":")[1].Trim();
-					if (line.StartsWith("OrgName"))
-						OrgName = line.Split(":")[1].Trim();
-					if (line.StartsWith("Country"))
+					var header = line.Split(":")[0].ToLower();
+					if (headers.Where(o => header.StartsWith(o)).Select(o => o).Any())
+					{
+						if (header.StartsWith("descr"))
+						{
+							if (gotDescr) continue;
+							gotDescr = true;
+						}
+						Organization.Add(line.Split(":")[1].Trim());
+						continue;
+					}
+					if (header.StartsWith("country"))
+					{
+						if (gotCountry) continue;
+						gotCountry = true;
 						Country = line.Split(":")[1].Trim();
+					}
 				}
 			});
 			_getOrgTask.Start();
@@ -78,7 +90,10 @@ namespace Netstatplus
 	    public override string ToString()
 	    {
 		    _getOrgTask?.Wait(200);
-		    var elements = new List<object> {OrgName, Country};
+		    var finalOrg = "";
+			if (Organization.Count > 0)
+				finalOrg = Organization.OrderBy(o => o.Contains("(")).First();
+			var elements = new List<object> { finalOrg, Country};
 		    var result = string.Join(" ", elements.Where(o => !(o is null || o.Equals(string.Empty))).Select(o => o));
 			return result;
 	    }
